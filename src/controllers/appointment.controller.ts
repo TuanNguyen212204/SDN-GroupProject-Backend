@@ -22,6 +22,7 @@ export async function createAppointment(req: Request, res: Response) {
     scheduledAt,
     notes,
     serviceTypeIds,
+    others,
   } = req.body;
 
   const created = await AppointmentModel.create({
@@ -38,6 +39,7 @@ export async function createAppointment(req: Request, res: Response) {
     status: 'PENDING',
     customerId: req.user?.sub,
     serviceTypeIds: Array.isArray(serviceTypeIds) ? serviceTypeIds : [],
+    others: others || undefined,
   });
 
   return success(res, String((created as any)._id), 'Appointment created');
@@ -76,6 +78,7 @@ export async function getMyAppointmentHistory(req: Request, res: Response) {
     serviceMode: a.serviceMode,
     scheduledAt: a.scheduledAt,
     status: a.status,
+    others: a.others || undefined,
   }));
 
   return success(res, { items: data, page, pageSize, total }, 'Appointment history');
@@ -113,6 +116,7 @@ export async function getAppointmentDetail(req: Request, res: Response) {
     status: found.status,
     notes: found.notes,
     serviceTypeIds: (found as any).serviceTypeIds || [],
+    others: (found as any).others || undefined,
   };
 
   return success(res, data, 'Appointment detail');

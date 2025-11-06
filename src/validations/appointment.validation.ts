@@ -14,5 +14,6 @@ export const validateCreateAppointment = [
   body('scheduledAt').isISO8601(),
   body('notes').optional().isString(),
   body('serviceTypeIds').isArray().custom((arr) => arr.every((id: any) => typeof id === 'string')),
+  body('others').optional().isString().trim(),
 ];
 

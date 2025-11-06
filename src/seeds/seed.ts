@@ -122,8 +122,22 @@ async function run() {
       { upsert: true, new: true }
     );
 
+<<<<<<< HEAD
     const vt3 = await VehicleTypeModel.findOneAndUpdate(
       { vehicleTypeName: 'VinFast VF 9' },
+=======
+    // Service types for vt1 (Tesla Model 3)
+    const inspection =
+      (await ServiceTypeModel.findOne({ serviceName: 'Kiểm tra tổng quát', vehicleTypeId: vt1._id, parentId: null })) ||
+      (await ServiceTypeModel.create({ serviceName: 'Kiểm tra tổng quát', vehicleTypeId: vt1._id, parentId: null, isActive: true, isDeleted: false }));
+
+    const battery =
+      (await ServiceTypeModel.findOne({ serviceName: 'Bảo dưỡng pin', vehicleTypeId: vt1._id, parentId: null })) ||
+      (await ServiceTypeModel.create({ serviceName: 'Bảo dưỡng pin', vehicleTypeId: vt1._id, parentId: null, isActive: true, isDeleted: false }));
+
+    await ServiceTypeModel.updateOne(
+      { serviceName: 'Kiểm tra hệ thống làm mát', vehicleTypeId: vt1._id, parentId: inspection._id },
+>>>>>>> c82b7a59271e18946480614983fa6d792351b5af
       {
         vehicleTypeName: 'VinFast VF 9',
         manufacturer: 'VinFast',
@@ -225,6 +239,7 @@ async function run() {
       { upsert: true }
     );
 
+<<<<<<< HEAD
     // Service types for VinFast VF 8
     const inspection2 = await ServiceTypeModel.findOneAndUpdate(
       { serviceName: 'Kiểm tra tổng quát', vehicleTypeId: vt2._id },
@@ -248,6 +263,58 @@ async function run() {
         estimatedDurationMinutes: 90,
         isActive: true, 
         isDeleted: false 
+=======
+    // Service types for vt2 (VinFast VF 8) - với children đầy đủ
+    const inspection2 =
+      (await ServiceTypeModel.findOne({ serviceName: 'Kiểm tra tổng quát', vehicleTypeId: vt2._id, parentId: null })) ||
+      (await ServiceTypeModel.create({ serviceName: 'Kiểm tra tổng quát', vehicleTypeId: vt2._id, parentId: null, isActive: true, isDeleted: false }));
+
+    const battery2 =
+      (await ServiceTypeModel.findOne({ serviceName: 'Bảo dưỡng pin', vehicleTypeId: vt2._id, parentId: null })) ||
+      (await ServiceTypeModel.create({ serviceName: 'Bảo dưỡng pin', vehicleTypeId: vt2._id, parentId: null, isActive: true, isDeleted: false }));
+
+    await ServiceTypeModel.updateOne(
+      { serviceName: 'Kiểm tra hệ thống làm mát', vehicleTypeId: vt2._id, parentId: inspection2._id },
+      {
+        $setOnInsert: {
+          serviceName: 'Kiểm tra hệ thống làm mát',
+          vehicleTypeId: vt2._id,
+          parentId: inspection2._id,
+          estimatedDurationMinutes: 30,
+          isActive: true,
+          isDeleted: false,
+        },
+      },
+      { upsert: true }
+    );
+
+    await ServiceTypeModel.updateOne(
+      { serviceName: 'Kiểm tra điện áp cao', vehicleTypeId: vt2._id, parentId: inspection2._id },
+      {
+        $setOnInsert: {
+          serviceName: 'Kiểm tra điện áp cao',
+          vehicleTypeId: vt2._id,
+          parentId: inspection2._id,
+          estimatedDurationMinutes: 45,
+          isActive: true,
+          isDeleted: false,
+        },
+      },
+      { upsert: true }
+    );
+
+    await ServiceTypeModel.updateOne(
+      { serviceName: 'Kiểm tra tình trạng pin', vehicleTypeId: vt2._id, parentId: battery2._id },
+      {
+        $setOnInsert: {
+          serviceName: 'Kiểm tra tình trạng pin',
+          vehicleTypeId: vt2._id,
+          parentId: battery2._id,
+          estimatedDurationMinutes: 40,
+          isActive: true,
+          isDeleted: false,
+        },
+>>>>>>> c82b7a59271e18946480614983fa6d792351b5af
       },
       { upsert: true }
     );

@@ -53,6 +53,7 @@ const AppointmentSchema = new Schema(
     status: { type: String, default: 'PENDING' },
     customerId: { type: String, required: false },
     serviceTypeIds: { type: [Schema.Types.ObjectId], ref: 'ServiceType', default: [] },
+    others: { type: String }, // Dịch vụ khác mà người dùng tự điền
   },
   { timestamps: { createdAt: true, updatedAt: false } }
 );
